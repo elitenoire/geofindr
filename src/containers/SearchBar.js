@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getAutocompletePlaces, getForecastWeather } from '../actions';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {term : ''};
+        this.state = {city : '', geocoord : {latitude : '', longitude : ''}};
 
         this.onSearchInputChange = this.onInputChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
     onInputChange(e){
-        this.setState({term : e.target.value})
+        this.setState({city : e.target.value})
     }
 
     onFormSubmit(e){
         e.preventDefault();
+        //make api call, ajax request
     }
 
     render() {
@@ -29,7 +33,7 @@ export default class SearchBar extends Component {
                         className="input is-large is-success"
                         type="text"
                         placeholder="Search for a City"
-                        value={this.state.term}
+                        value={this.state.city}
                         onChange={this.onSearchInputChange}
                     />
                     <span className="icon is-medium is-left">
@@ -47,3 +51,9 @@ export default class SearchBar extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({getAutocompletePlaces, getForecastWeather}, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar)

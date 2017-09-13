@@ -1,20 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Search, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { getAutocompletePlaces, getForecastWeather } from '../actions';
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {city : '', geocoord : {latitude : '', longitude : ''}};
+        this.state = {place : '', geocoord : this.clearCoord, loading : '', error : false};
+        this.clearCoord = {latitude : '', longitude : ''};
 
         this.onSearchInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onSelectInput = this.onSelectInput.bind(this);
+        this.onError = this.onError.bind(this);
     }
 
-    onInputChange(e){
-        this.setState({city : e.target.value})
+    onInputChange(place){
+        this.setState({place , geocoord : this.clearCoord, error : false})
+    }
+
+    onSelectInput(place){
+        this.setState({place, loading :'is-loading'})
+
+        geocodeByAddress(place)
+            .then(results => getLatLng(results[0]))
+            .then(({ lat, lng }) => {
+                this.setState({
+                    loading : '',
+                    geocoord : {
+                        latitude : lat,
+                        longitude : lng,
+                    }})})
+            .catch(err => this.setState({error : true, loading : ''}))
     }
 
     onFormSubmit(e){
@@ -22,32 +41,73 @@ class SearchBar extends Component {
         //make api call, ajax request
     }
 
-    render() {
-        return (
-            <form
-                onSubmit={this.onFormSubmit}
-                className="field has-addons has-addons-centered"
-            >
-                <div className="control is-expanded has-icons-left has-icons-right">
-                    <input
-                        className="input is-large is-success"
-                        type="text"
-                        placeholder="Search for a City"
-                        value={this.state.city}
-                        onChange={this.onSearchInputChange}
-                    />
-                    <span className="icon is-medium is-left">
-                        <i className="fa fa-search"></i>
-                    </span>
-                    <span className="icon is-right">
-                        <i className="fa fa-times"></i>
-                    </span>
-                </div>
+    onError(){
+        return this.state.error
+                ? <p className="help is-danger has-text-centered">Something went wrong. Please refresh.</p>
+                : <p></p>
+    }
 
-                <div className="control">
-                    <button type="submit" className="button is-large is-success">Search</button>
-                </div>
-            </form>
+    setAutocompleteItemStyle({ formattedSuggestion }){
+        return (
+            <div>
+                <span style={{marginRight: 8}}>
+                    <i className="fa fa-map-marker"></i>
+                </span>
+                <span>
+                    <strong>{ formattedSuggestion.mainText }</strong>{' '}
+                    <small>{ formattedSuggestion.secondaryText }</small>
+                </span>
+            </div>
+        )
+    }
+
+    render() {
+        const inputProps = {
+            value : this.state.place,
+            onChange : this.onSearchInputChange,
+            type : 'text',
+            placeholder : 'e.g. London, United Kingdom'
+        }
+        const cssNames = {
+            input : 'input is-large is-success',
+            root : '',
+        }
+        const customBox = {
+            autocompleteContainer : {border : '1px solid hsl(141, 71%, 48%)	'},
+            autocompleteItemActive: { backgroundColor: 'hsl(141, 71%, 48%)	' ,color: '#fff' }
+        }
+        const btnStyle = `button is-large is-success ${this.state.loading}`
+
+        return (
+            <div className="field">
+                <form
+                    onSubmit={this.onFormSubmit}
+                    className="field has-addons has-addons-centered"
+                >
+                    <div className="control is-expanded has-icons-left has-icons-right">
+                        <Search
+                            inputProps={inputProps}
+                            classNames={cssNames}
+                            styles={customBox}
+                            clearable={true}
+                            onSelect={this.onSelectInput}
+                            onEnterKeyDown={this.onSelectInput}
+                            autocompleteItem={this.setAutocompleteItemStyle}
+                        />
+                        <span className="icon is-medium is-left">
+                            <i className="fa fa-search"></i>
+                        </span>
+                        <span className="icon is-right">
+                            <i className="fa fa-times"></i>
+                        </span>
+                    </div>
+
+                    <div className="control">
+                        <button type="submit" className={btnStyle}>Search</button>
+                    </div>
+                </form>
+                {this.onError()}
+            </div>
         );
     }
 }

@@ -87,14 +87,14 @@ class SearchBar extends Component {
             placeholder : 'e.g. London, United Kingdom'
         }
         const cssNames = {
-            input : 'input is-large is-success',
+            input : 'input is-large is-success is-normal-mobile',
             root : '',
         }
         const customBox = {
             autocompleteContainer : {border : '1px solid hsl(141, 71%, 48%)	'},
             autocompleteItemActive: { backgroundColor: 'hsl(141, 71%, 48%)	' ,color: '#fff' }
         }
-        const btnStyle = `button is-large is-success ${this.state.loading}`
+        const btnStyle = `button is-large is-normal-mobile is-success ${this.state.loading}`
 
         return (
             <div className="field">

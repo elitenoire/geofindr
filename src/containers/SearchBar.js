@@ -4,17 +4,20 @@ import { bindActionCreators } from 'redux';
 import Search, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { getAutocompletePlaces, getForecastWeather } from '../actions';
 
+import _debounce from 'lodash.debounce';
+
 class SearchBar extends Component {
     constructor(props) {
         super(props);
 
         this.state = {place : '', geocoord : this.clearCoord, loading : '', error : false};
-        this.clearCoord = {latitude : '', longitude : ''};
+        this.clearCoord = null //{latitude : '', longitude : ''};
 
         this.onSearchInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onSelectInput = this.onSelectInput.bind(this);
         this.onError = this.onError.bind(this);
+        // this.getGeocode = this.getGeocode.bind(this);
     }
 
     onInputChange(place){
@@ -23,22 +26,37 @@ class SearchBar extends Component {
 
     onSelectInput(place){
         this.setState({place, loading :'is-loading'})
+        this.getGeocode(place)
 
-        geocodeByAddress(place)
-            .then(results => getLatLng(results[0]))
-            .then(({ lat, lng }) => {
-                this.setState({
-                    loading : '',
-                    geocoord : {
-                        latitude : lat,
-                        longitude : lng,
-                    }})})
-            .catch(err => this.setState({error : true, loading : ''}))
+    }
+
+    getGeocode = (place)=> {
+        return geocodeByAddress(place)
+                .then(results => getLatLng(results[0]))
+                .then(({ lat, lng }) => {
+                    this.setState({
+                        loading : '',
+                        geocoord : {
+                            latitude : lat,
+                            longitude : lng,
+                        }})})
+                .catch(err => this.setState({error : true, loading : ''}))
     }
 
     onFormSubmit(e){
+        console.log(this.state.geocoord)
         e.preventDefault();
+        this.setState({loading : 'is-loading'})
         //make api call, ajax request
+        if(!this.state.geocoord){
+            console.log('fetching geocoords..')
+            this.getGeocode(this.state.place)
+                .then(()=> console.log('fetched!'))
+                .then(this.props.getForecastWeather(this.state.geocoord))
+        }
+        else this.props.getForecastWeather(this.state.geocoord)
+        //clear reset input field
+        this.setState({place : ''})
     }
 
     onError(){

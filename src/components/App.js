@@ -28,7 +28,7 @@ class App extends Component {
           <div className="container">
             <div className="tile is-ancestor">
               <div className="tile is-4 is-parent">
-                <div className="tile is-child box"></div>
+                <div className="tile is-child notification is-warning"></div>
               </div>
               <div className="tile is-parent is-vertical">
                 <div className="tile is-child box"></div>

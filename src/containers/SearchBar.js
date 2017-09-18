@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Search, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { getAutocompletePlaces, getForecastWeather } from '../actions';
+import { getCurrentWeather, getForecastWeather } from '../actions';
 
-import _debounce from 'lodash.debounce';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -88,9 +87,9 @@ class SearchBar extends Component {
         }
         const cssNames = {
             input : 'input is-large is-success is-normal-mobile',
-            root : '',
         }
         const customBox = {
+            root : {zIndex : 1},
             autocompleteContainer : {border : '1px solid hsl(141, 71%, 48%)	'},
             autocompleteItemActive: { backgroundColor: 'hsl(141, 71%, 48%)	' ,color: '#fff' }
         }
@@ -108,6 +107,7 @@ class SearchBar extends Component {
                             classNames={cssNames}
                             styles={customBox}
                             clearable={true}
+                            debounce={350}
                             onSelect={this.onSelectInput}
                             onEnterKeyDown={this.onSelectInput}
                             autocompleteItem={this.setAutocompleteItemStyle}
@@ -131,7 +131,7 @@ class SearchBar extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getAutocompletePlaces, getForecastWeather}, dispatch)
+    return bindActionCreators({getCurrentWeather, getForecastWeather}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(SearchBar)

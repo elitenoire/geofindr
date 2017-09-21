@@ -30,6 +30,12 @@ Animate.SUN = ({target}) => {
     // scale(".climacon_iconWrap-sunFill .climacon_component-stroke_sunSpoke:nth-child(odd)", 0);
     // scale(".climacon_iconWrap-sunFill .climacon_component-stroke_sunSpoke:nth-child(even)", 4.5);
 }
+Animate.CLOUD_FOG_MOON =  ({target}) => {
+    const lines = [[],[]]
+    $R(target[0]).find('.climacon_component-stroke_fogLine').components
+        .forEach((line,index) => lines[index & 1].push(line))
+    return new TimelineMax().add([normalize(target),translate(lines[0],0,6,2.5,true),translate(lines[1],9,6,2.5,true)])
+}
 
 //HELPERS
 const normalize = (target) => {
@@ -41,6 +47,13 @@ const scale = (elem, delay) => {
     const tlm = new TimelineMax({repeat:-1, yoyo: true, ease: 'Linear.easeNone', delay:delay });
     return tlm.fromTo(elem, 3, {scale:1}, {scale:0.5});
 }
+const translate = (elem, delay, speed, x, opacity) => {
+    var tlm = new TimelineMax({repeat:-1, delay:delay, yoyo: true, ease: 'Sine.easeInOut' });
+    return opacity  ?   tlm.fromTo(elem, speed, {x:x}, {x:-x}, {x:0} )
+                            .fromTo(elem, speed/3, {opacity:0.5}, {opacity:1, repeat:1, yoyo:true, ease:'Linear.easeNone'}, 0)
+                    :   tlm.fromTo(elem, speed, {x:x}, {x:-x}, {x:0});
+}
+
 
 export default Animate;
 

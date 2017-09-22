@@ -5,15 +5,19 @@ import { Animate, Icons } from '../utils';
 // import Icons from '../utils/climacons-svg';
 // import Animate from '../utils/animate-icons';
 
+//TODO add style for icon component
+
 class SvgIcon extends Component {
     componentDidMount(){
-        this.addAnimation(Animate.SUN)
+        if(this.props.animate){
+            this.addAnimation(Animate[this.props.name])
+        }
     }
 
     render() {
         return (
-            <div className="icon">
-                {Icons.SUN}
+            <div className={`icon ${this.props.size}`}>
+                {Icons[this.props.name]}
             </div>
         )
     }

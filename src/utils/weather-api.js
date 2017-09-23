@@ -1,15 +1,18 @@
 import axios from 'axios';
 import qs from  'querystringify'
-import { BASE_URL } from '../constants';
+import { OPENWEATHER_URL } from '../constants';
 
 const client = axios.create({
-    baseURL: BASE_URL
+    baseURL: OPENWEATHER_URL
   });
 
   //Temperature Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
   //Pressure Unit hPa
   //Humidity Unit %
   //Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
+const ipGeocoder = () => {
+    return axios.get('http://ip-api.com/json') //promise
+}
 
 const currentWeather = (objQuery) => {
     const query = parser(objQuery)
@@ -33,6 +36,6 @@ const parser = (obj) => {
     return parsed
 }
 
-const WeatherApi = { currentWeather, forecastWeather }
+const WeatherApi = { currentWeather, forecastWeather, ipGeocoder }
 
 export default WeatherApi;

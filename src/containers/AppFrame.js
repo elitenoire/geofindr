@@ -25,7 +25,8 @@ class AppFrame extends Component {
 
   componentDidMount() {
     console.log('mount called!')
-    this.getGeolocation()
+    // this.getGeolocation()
+    this.getIPLocation()
   }
 
   handleLoadScript = () => {
@@ -45,7 +46,7 @@ class AppFrame extends Component {
     if(geolocation) {//browser supports
       console.log('location on!')
       //detect location
-      geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError, this.positionOptions)
+      geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError, this.positionOptions)
     }
     else{
       console.log('location off!')
@@ -68,7 +69,7 @@ class AppFrame extends Component {
 
   renderAppOrSplash = () => {
     const { currentWeather } = this.props;
-    return this.state.scriptLoaded && this.state.hasLocation && this.props.weatherStatus
+    return this.state.scriptLoaded && !this.props.ipGeocode.error //this.state.hasLocation && this.props.statusFlags
               ? <App />
               : <Splash />
   }
@@ -94,6 +95,8 @@ const mapDispatchToProps = (dispatch) => {
   )
 }
 
-const mapStateToProps = ({weatherStatus}) => {weatherStatus}
+const mapStateToProps = ({ ipGeocode }) => {
+  return {ipGeocode}
+} 
 
-export default connect(null, mapDispatchToProp)(AppFrame);
+export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);

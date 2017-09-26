@@ -1,4 +1,4 @@
-import { takeEvery, select, call, put, take, all, fork } from 'redux-saga/effects'
+import { takeEvery, select, call, put, all, take } from 'redux-saga/effects'
 import WeatherApi from '../utils/weather-api'
 import {
      GET_WEATHER, GET_WEATHER_PASS, GET_WEATHER_FAIL,

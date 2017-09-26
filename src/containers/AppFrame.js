@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Splash from '../components/Splash';
 import App from '../components/App';
-import { getLocationByIP } from '../actions';
-// import {
-//   getLocationByIP, getCurrentWeather,
-//   getForecastWeather, updateWeatherStatus
-// } from '../actions';
-
+import { getLocationByIP, getGeolocation } from '../actions';
 
 const APKEY = "AIzaSyD5MWT0TdVQ-AGaAbqAOO1KEwdFr8wNhxY";
 
@@ -21,13 +16,12 @@ class AppFrame extends Component {
 
     this.positionOptions = {maximumAge: 75000, enableHighAccuracy : true, timeout : 5000}
 
-    // this.handleLoadScript = this.handleLoadScript.bind(this)
   }
 
   componentDidMount() {
     console.log('mount called!')
-    // this.getGeolocation()
-    this.getIPLocation()
+    this.getGeolocation()
+    // this.getIPLocation()
   }
 
   handleLoadScript = () => {
@@ -47,7 +41,7 @@ class AppFrame extends Component {
     if(geolocation) {//browser supports
       console.log('location on!')
       //detect location
-      geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError, this.positionOptions)
+      this.props.getGeolocation(geolocation)
     }
     else{
       console.log('location off!')
@@ -56,17 +50,6 @@ class AppFrame extends Component {
     }
   }
 
-  handleGeoError = (err) => {
-    switch(err.code){
-      case err.PERMISSION_DENIED : break
-      default : this.getIPLocation()
-    }
-  }
-
-  handleGeoSuccess = ({ coords }) => {
-    //fetch weather data using position coords
-    // this.props.getCurrentWeather(coords)
-  }
 
   renderAppOrSplash = () => {
     const { currentWeather } = this.props;
@@ -88,11 +71,10 @@ class AppFrame extends Component {
     );
   }
 }
-// {getLocationByIP, getCurrentWeather, getForecastWeather, updateWeatherStatus}
 
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({getLocationByIP}
+  return bindActionCreators({ getLocationByIP, getGeolocation }
     , dispatch
   )
 }

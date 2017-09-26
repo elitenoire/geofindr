@@ -1,10 +1,18 @@
 import {
-    GET_IP_GEOCODE, GET_WEATHER_CURRENT, GET_WEATHER,
-    GET_WEATHER_FORECAST, UPDATE_WEATHER_STATE } from '../constants';
+    GET_IP_GEOCODE, GET_GEOLOCATION, GET_WEATHER,
+    UPDATE_WEATHER_STATE } from '../constants';
 
 export function getLocationByIP(){
     return {
         type : GET_IP_GEOCODE
+    }
+}
+
+export function getGeolocation(geolocation){
+    console.log('geolocation in action creator ', geolocation)
+    return{
+        type : GET_GEOLOCATION,
+        geolocation,
     }
 }
 

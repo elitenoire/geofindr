@@ -10,7 +10,7 @@ export default (state = INITIAL_STATE, action) => {
         //     return {...state, isloading : true}
         case GET_IP_GEOCODE_PASS :
             // return state.concat([action.payload.data])
-            return {...state, geocoords :{lat : payload.lat, lon : payload.lon}}
+            return {...state, geocoords :{lat : payload.lat || payload.latitude, lon : payload.lon || payload.longitude}}
         case GET_IP_GEOCODE_FAIL :
             return {...state, error : true, errmsg : payload.error}
         default :

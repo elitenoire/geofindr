@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Splash from '../components/Splash';
 import App from '../components/App';
-import {
-  getLocationByIP, getCurrentWeather,
-  getForecastWeather, updateWeatherStatus
-} from '../actions';
+import { getLocationByIP } from '../actions';
+// import {
+//   getLocationByIP, getCurrentWeather,
+//   getForecastWeather, updateWeatherStatus
+// } from '../actions';
 
 
 const APKEY = "AIzaSyD5MWT0TdVQ-AGaAbqAOO1KEwdFr8wNhxY";
@@ -64,7 +65,7 @@ class AppFrame extends Component {
 
   handleGeoSuccess = ({ coords }) => {
     //fetch weather data using position coords
-    this.props.getCurrentWeather(coords)
+    // this.props.getCurrentWeather(coords)
   }
 
   renderAppOrSplash = () => {
@@ -87,16 +88,15 @@ class AppFrame extends Component {
     );
   }
 }
+// {getLocationByIP, getCurrentWeather, getForecastWeather, updateWeatherStatus}
+
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {getLocationByIP, getCurrentWeather, getForecastWeather, updateWeatherStatus}
+  return bindActionCreators({getLocationByIP}
     , dispatch
   )
 }
 
-const mapStateToProps = ({ ipGeocode }) => {
-  return {ipGeocode}
-} 
+const mapStateToProps = ({ ipGeocode }) => ({ipGeocode})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);

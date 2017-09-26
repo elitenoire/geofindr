@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Search, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { getCurrentWeather, getForecastWeather } from '../actions';
+import { getWeather } from '../actions';
 
 
 class SearchBar extends Component {
@@ -51,9 +51,9 @@ class SearchBar extends Component {
             console.log('fetching geocoords..')
             this.getGeocode(this.state.place)
                 .then(()=> console.log('fetched!'))
-                .then(this.props.getForecastWeather(this.state.geocoord))
+                .then(this.props.getWeather())
         }
-        else this.props.getForecastWeather(this.state.geocoord)
+        else this.props.getWeather()
         //clear reset input field
         this.setState({place : ''})
     }
@@ -131,7 +131,7 @@ class SearchBar extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getCurrentWeather, getForecastWeather}, dispatch)
+    return bindActionCreators({getWeather}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(SearchBar)

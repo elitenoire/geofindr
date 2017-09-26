@@ -11,6 +11,7 @@ const client = axios.create({
   //Humidity Unit %
   //Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
 const ipGeocoder = () => {
+    console.log('fetching coords')
     return axios.get('http://ip-api.com/json') //promise
 }
 
@@ -28,7 +29,7 @@ const forecastWeather = (objQuery) => {
 
 const parser = (obj) => {
     const parsed = {};
-    parsed.cnt = obj.cnt || null
+    // parsed.cnt = obj.cnt || null
     parsed.units = obj.units || 'metric' //imperial
     parsed.lat = obj.lat || obj.latitude || obj.coords.latitude || obj.coords.lat
     parsed.lon = obj.lon || obj.longitude || obj.coords.longitude || obj.coords.lon

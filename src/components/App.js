@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import SearchBar from '../containers/SearchBar';
+import Weather from './Weather';
 
 class App extends Component {
   render() {
@@ -26,15 +27,17 @@ class App extends Component {
         </div>
         <div className="block">
           <div className="container">
-            <div className="tile is-ancestor">
-              <div className="tile is-4 is-parent">
-                <div className="tile is-child notification is-warning"></div>
+            <Weather>
+              <div className="tile is-ancestor">
+                <div className="tile is-4 is-parent">
+                  <div className="tile is-child notification is-warning"></div>
+                </div>
+                <div className="tile is-parent is-vertical">
+                  <div className="tile is-child box"></div>
+                  <div className="tile is-child box"></div>
+                </div>
               </div>
-              <div className="tile is-parent is-vertical">
-                <div className="tile is-child box"></div>
-                <div className="tile is-child box"></div>
-              </div>
-            </div>
+            </Weather>
           </div>
         </div>
       </div>

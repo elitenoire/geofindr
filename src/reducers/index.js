@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 import ipGeocode from './ipGeocode';
-import forecastWeather from './forecastWeather';
-import currentWeather from './currentWeather';
+import weather from './Weather';
 import statusFlags from './statusFlags'
 
 const rootReducer = combineReducers({
   ipGeocode,
-  forecastWeather,
-  currentWeather,
+  weather,
   statusFlags,
 });
 

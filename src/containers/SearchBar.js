@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Search, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { getWeather } from '../actions';
+import { getWeather, saveGeocoords } from '../actions';
 
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {place : '', geocoord : this.clearCoord, loading : '', error : false};
-        this.clearCoord = null //{latitude : '', longitude : ''};
+        this.state = {place : '', loading : '', error : false};
+        this.clearCoords = null //{latitude : '', longitude : ''};
+        this.geocoords = this.clearCoords
 
         this.onSearchInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -20,38 +21,38 @@ class SearchBar extends Component {
     }
 
     onInputChange(place){
-        this.setState({place , geocoord : this.clearCoord, error : false})
+        this.geocoords = this.clearCoords
+        this.setState({place , error : false})
     }
 
     onSelectInput(place){
         this.setState({place, loading :'is-loading'})
         this.getGeocode(place)
-
     }
 
     getGeocode = (place)=> {
         return geocodeByAddress(place)
                 .then(results => getLatLng(results[0]))
                 .then(({ lat, lng }) => {
-                    this.setState({
-                        loading : '',
-                        geocoord : {
-                            latitude : lat,
-                            longitude : lng,
-                        }})})
+                        this.geocoords = { lat, lng }
+                        //dispatch geocoord to store
+                        this.props.saveGeocoords(this.geocoords)
+                        this.setState({ loading : ''})
+                    }
+                )
                 .catch(err => this.setState({error : true, loading : ''}))
     }
 
     onFormSubmit(e){
-        console.log(this.state.geocoord)
+        console.log(this.geocoords)
         e.preventDefault();
-        this.setState({loading : 'is-loading'})
+        this.setState({loading : 'is-loading'})//possible dispatch formsubmit to show loading
         //make api call, ajax request
-        if(!this.state.geocoord){
+        if(!this.geocoords){
             console.log('fetching geocoords..')
             this.getGeocode(this.state.place)
                 .then(()=> console.log('fetched!'))
-                .then(this.props.getWeather())
+                .then(()=>this.props.getWeather()) //callback?check if error true,return otherwise run
         }
         else this.props.getWeather()
         //clear reset input field
@@ -131,7 +132,7 @@ class SearchBar extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getWeather}, dispatch)
+    return bindActionCreators({getWeather, saveGeocoords}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(SearchBar)

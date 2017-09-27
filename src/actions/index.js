@@ -1,5 +1,5 @@
 import {
-    GET_IP_GEOCODE, GET_GEOLOCATION, GET_WEATHER,
+    GET_IP_GEOCODE, GET_GEOLOCATION, GET_WEATHER, SAVE_GEOCOORDS,
     UPDATE_WEATHER_STATE } from '../constants';
 
 export function getLocationByIP(){
@@ -10,9 +10,16 @@ export function getLocationByIP(){
 
 export function getGeolocation(geolocation){
     console.log('geolocation in action creator ', geolocation)
-    return{
+    return {
         type : GET_GEOLOCATION,
         geolocation,
+    }
+}
+
+export function saveGeocoords(coords){
+    return {
+        type : SAVE_GEOCOORDS,
+        payload : coords,
     }
 }
 

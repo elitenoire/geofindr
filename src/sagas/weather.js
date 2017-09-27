@@ -15,11 +15,11 @@ function* getWeather(){
         })
         console.log('current in getWeather: ' , current)
         console.log('forecast in getWeather: ' , forecast)
-        yield take([GET_WEATHER_CURRENT_PASS, GET_WEATHER_FORECAST_PASS])
-        yield put({type: GET_WEATHER_PASS, weather:{current, forecast}})
+        // yield take([GET_WEATHER_CURRENT_PASS, GET_WEATHER_FORECAST_PASS])
+        yield put({type: GET_WEATHER_PASS, weather: {current, forecast}})
     }
     catch(err){
-        yield put({type: GET_WEATHER_FAIL,  error : true, errmsg : err.message})
+        yield put({type: GET_WEATHER_FAIL, errmsg : err.message})
     }
 }
 

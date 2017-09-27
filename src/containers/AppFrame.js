@@ -32,9 +32,9 @@ class AppFrame extends Component {
     this.setState({hasLocation : true})
   }
 
-  getIPLocation = () => {
-    this.props.getLocationByIP()
-  }
+  // getIPLocation = () => {
+  //   this.props.getLocationByIP()
+  // }
 
   getGeolocation = () => {
     const geolocation = navigator.geolocation;
@@ -46,7 +46,7 @@ class AppFrame extends Component {
     else{
       console.log('location off!')
       //use ip based geolocator
-      this.getIPLocation()
+      this.props.getLocationByIP()
     }
   }
 

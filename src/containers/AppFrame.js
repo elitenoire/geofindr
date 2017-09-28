@@ -13,9 +13,6 @@ class AppFrame extends Component {
     super(props)
 
     this.state = {scriptLoaded : false, hasLocation : false}
-
-    this.positionOptions = {maximumAge: 75000, enableHighAccuracy : true, timeout : 5000}
-
   }
 
   componentDidMount() {
@@ -47,7 +44,6 @@ class AppFrame extends Component {
 
 
   renderAppOrSplash = () => {
-    const { currentWeather } = this.props;
     return this.state.scriptLoaded && !this.props.loading
               ? <App />
               : <Splash />

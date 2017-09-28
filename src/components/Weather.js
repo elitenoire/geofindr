@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 // import Overlay from 'react-overlay-loading/lib/OverlayLoader'

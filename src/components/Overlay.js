@@ -28,23 +28,23 @@
  */ 
 
 import React from 'react';
-import Halogen from 'halogen';
+import Wave from 'respinner/lib/wave';
 import styled from 'styled-components';
 
 export default class WrapperComponent extends React.Component {
   render() {
     let isActive = 'none';
-    let color = null;
+    // let color = null;
 
     if(this.props.active) isActive = 'block'
 
-    if (this.props.color) {
-      color = this.props.color
-    }else {
-      color = 'white';
-    };
+    // if (this.props.color) {
+    //   color = this.props.color
+    // }else {
+    //   color = 'white';
+    // };
 
-    const Hloader = Halogen[this.props.loader];
+    // const Hloader = Halogen[this.props.loader];
 
     const Wrapper = styled.div`
       position: relative;
@@ -57,11 +57,13 @@ export default class WrapperComponent extends React.Component {
         width: 100%;
         height: 100%;
         opacity: ${ this.props.opacity || .9};
+        
         position: absolute;
         z-index: 99;
       }
 
-      display: ${ isActive }
+      display: ${ isActive };
+      
     `;
 
     const Loader = styled.div`
@@ -74,6 +76,10 @@ export default class WrapperComponent extends React.Component {
       z-index: 99;
     `;
 
+    const Blurred = styled.div`
+    ${this.props.active ? 'filter: blur(1px);' : ''}
+    `;
+
     let textElement = null
     if (this.props.text) textElement = <div>{this.props.text}</div>
 
@@ -81,11 +87,13 @@ export default class WrapperComponent extends React.Component {
       <Wrapper>
         <LoaderWrapper>
           <Loader>
-            <Hloader color={this.props.color} />
+            <Wave stroke={this.props.color || 'white'} size={30} />
             {textElement}
           </Loader>
         </LoaderWrapper>
-        {this.props.children}
+        <Blurred>
+          {this.props.children}
+        </Blurred>
       </Wrapper>
     );
   }

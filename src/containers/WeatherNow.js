@@ -20,8 +20,6 @@ class WeatherNow extends Component {
     }
 }
 
-const mapStateToProps = ({ weatherdata }) => {
-    current : weatherdata.current
-}
+const mapStateToProps = ({ weatherdata }) => ({current : weatherdata.weather.current})
 
 export default connect(mapStateToProps)(WeatherNow)

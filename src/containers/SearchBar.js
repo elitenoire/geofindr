@@ -17,7 +17,6 @@ class SearchBar extends Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onSelectInput = this.onSelectInput.bind(this);
         this.onError = this.onError.bind(this);
-        // this.getGeocode = this.getGeocode.bind(this);
     }
 
     onInputChange(place){
@@ -51,13 +50,13 @@ class SearchBar extends Component {
             this.setState({blank : true})
             return
         }
-        this.setState({loading : 'is-loading'})//possible dispatch formsubmit to show loading
+        this.setState({loading : 'is-loading'})
         //make api call, ajax request
         if(!this.geocoords){
             console.log('fetching geocoords..')
             this.getGeocode(this.state.place)
                 .then(()=> console.log('fetched!'))
-                .then(()=>this.props.getWeather()) //callback?check if error true,return otherwise run
+                .then(this.props.getWeather) //callback?check if error true,return otherwise run
         }
         else this.props.getWeather()
         //clear reset input field

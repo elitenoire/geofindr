@@ -21,7 +21,6 @@ class AppFrame extends Component {
   componentDidMount() {
     console.log('mount called!')
     this.getGeolocation()
-    // this.getIPLocation()
   }
 
   handleLoadScript = () => {
@@ -31,10 +30,6 @@ class AppFrame extends Component {
   handleLocationState = () => {
     this.setState({hasLocation : true})
   }
-
-  // getIPLocation = () => {
-  //   this.props.getLocationByIP()
-  // }
 
   getGeolocation = () => {
     const geolocation = navigator.geolocation;
@@ -53,7 +48,7 @@ class AppFrame extends Component {
 
   renderAppOrSplash = () => {
     const { currentWeather } = this.props;
-    return this.state.scriptLoaded && !this.props.loading // !this.props.ipGeocode.error //this.state.hasLocation && this.props.statusFlags
+    return this.state.scriptLoaded && !this.props.loading
               ? <App />
               : <Splash />
   }
@@ -62,16 +57,15 @@ class AppFrame extends Component {
     console.log('render called!')
     return (
         <div>
-            {this.renderAppOrSplash()}
             <Script
             url={`https://maps.googleapis.com/maps/api/js?key=${APKEY}&libraries=places`}
             onLoad={this.handleLoadScript}
             />
+            {this.renderAppOrSplash()}
         </div>
     );
   }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ getLocationByIP, getGeolocation }

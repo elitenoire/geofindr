@@ -15,7 +15,7 @@ function* getIPLocation(){
     }
     catch(err){
         console.log('saga fail')
-        yield put({type: GET_IP_GEOCODE_FAIL, error : err.message})
+        yield put({type: GET_IP_GEOCODE_FAIL, errmsg : err.message})
     }
 }
 //WATCHER SAGA - listen for dispatched action, call worker to handle action

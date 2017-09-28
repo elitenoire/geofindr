@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import ipGeocode from './ipGeocode';
-import weather from './Weather';
-import statusFlags from './statusFlags'
+import status from './status';
+import weatherdata from './weatherdata';
+import overlay from './overlay'
 
 const rootReducer = combineReducers({
-  ipGeocode,
-  weather,
-  statusFlags,
+  status,
+  weatherdata,
+  overlay,
 });
 
 export default rootReducer;

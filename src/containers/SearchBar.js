@@ -9,7 +9,7 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {place : '', loading : '', error : false};
+        this.state = {place : '', loading : '', blank : false, error : false};
         this.clearCoords = null //{latitude : '', longitude : ''};
         this.geocoords = this.clearCoords
 
@@ -22,7 +22,7 @@ class SearchBar extends Component {
 
     onInputChange(place){
         this.geocoords = this.clearCoords
-        this.setState({place , error : false})
+        this.setState({place , error : false, blank : false})
     }
 
     onSelectInput(place){
@@ -45,7 +45,12 @@ class SearchBar extends Component {
 
     onFormSubmit(e){
         console.log(this.geocoords)
+        console.log('blank ', this.state.blank)
         e.preventDefault();
+        if(this.state.place === ''){
+            this.setState({blank : true})
+            return
+        }
         this.setState({loading : 'is-loading'})//possible dispatch formsubmit to show loading
         //make api call, ajax request
         if(!this.geocoords){
@@ -56,12 +61,14 @@ class SearchBar extends Component {
         }
         else this.props.getWeather()
         //clear reset input field
-        this.setState({place : ''})
+        this.setState({place : '', loading : ''})
     }
 
     onError(){
         return this.state.error
                 ? <p className="help is-danger has-text-centered">Something went wrong. Please refresh.</p>
+                : this.state.blank
+                ? <p className="help is-danger has-text-centered">Input field is blank</p>
                 : <p></p>
     }
 

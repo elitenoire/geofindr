@@ -1,4 +1,4 @@
-import { takeEvery, select, call, put, all, take } from 'redux-saga/effects'
+import { takeEvery, select, call, put, all } from 'redux-saga/effects'
 import WeatherApi from '../utils/weather-api'
 import {
      GET_WEATHER, GET_WEATHER_PASS, GET_WEATHER_FAIL,
@@ -8,7 +8,7 @@ const OPEN_WEATHER = '0f344077779ee6dbf8caac745440395f';
 
 function* getWeather(){
     try{
-        const coords = yield select(({ipGeocode}) => ipGeocode.geocoords)
+        const coords = yield select(({weatherdata}) => weatherdata.geocoords)
         const {current, forecast} = yield all({
             current : call(getCurrent, coords),
             forecast : call(getForecast , coords)

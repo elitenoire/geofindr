@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class WeatherNow extends Component {
     render(){
-        const { weather, main, wind, sys, name, clouds, dt} = this.props.currentWeather
+        const { weather, main, wind, sys, name, clouds, dt} = this.props.current
         return (
             <div>
                 <p className="title">{`${name}, ${sys.country}`}</p>
@@ -20,8 +20,8 @@ class WeatherNow extends Component {
     }
 }
 
-const mapStateToProps = ({ currentWeather }) => {
-    currentWeather
+const mapStateToProps = ({ weatherdata }) => {
+    current : weatherdata.current
 }
 
 export default connect(mapStateToProps)(WeatherNow)

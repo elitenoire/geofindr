@@ -53,7 +53,7 @@ class AppFrame extends Component {
 
   renderAppOrSplash = () => {
     const { currentWeather } = this.props;
-    return this.state.scriptLoaded && !this.props.ipGeocode.error //this.state.hasLocation && this.props.statusFlags
+    return this.state.scriptLoaded && !this.props.loading // !this.props.ipGeocode.error //this.state.hasLocation && this.props.statusFlags
               ? <App />
               : <Splash />
   }
@@ -79,6 +79,6 @@ const mapDispatchToProps = (dispatch) => {
   )
 }
 
-const mapStateToProps = ({ ipGeocode }) => ({ipGeocode})
+const mapStateToProps = ({ status }) => ({loading : status.loading})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppFrame);

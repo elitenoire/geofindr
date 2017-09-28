@@ -1,5 +1,5 @@
 import { takeEvery, cps, put} from 'redux-saga/effects'
-import { GET_IP_GEOCODE, GET_IP_GEOCODE_PASS,
+import { GET_IP_GEOCODE, GET_GEOLOCATION_PASS,
         GET_GEOLOCATION, GET_WEATHER } from '../constants';
 
 // Use geolocation api to get coords via callback
@@ -11,7 +11,7 @@ function geolocator(geolocation, cb){
 function* getGeolocationCoords({ geolocation }){
     try{
         const response = yield cps(geolocator, geolocation)
-        yield put({type: GET_IP_GEOCODE_PASS, payload : response})
+        yield put({type: GET_GEOLOCATION_PASS, payload : response})
         yield put ({type: GET_WEATHER})
     }
     catch(err){

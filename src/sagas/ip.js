@@ -8,13 +8,13 @@ function* getIPLocation(){
         //make api request - pass function to return promise, dont call function
         const response = yield call(WeatherApi.ipGeocoder)
         //dispatch result to reducers
-        console.log('iplocation response is: ', response)
-        console.log('saga success')
+        // console.log('iplocation response is: ', response)
+        // console.log('saga success')
         yield put({type: GET_IP_GEOCODE_PASS, payload : response.data})
         yield put ({type: GET_WEATHER})
     }
     catch(err){
-        console.log('saga fail')
+        // console.log('saga fail')
         yield put({type: GET_IP_GEOCODE_FAIL, errmsg : err.message})
     }
 }

@@ -9,7 +9,6 @@ export function getLocationByIP(){
 }
 
 export function getGeolocation(geolocation){
-    console.log('geolocation in action creator ', geolocation)
     return {
         type : GET_GEOLOCATION,
         geolocation,

@@ -12,14 +12,9 @@ export default (state = INITIAL_STATE, { type, payload, weather }) => {
                 ...state,
                 geocoords :{lat : payload.lat || payload.latitude, lon : payload.lon || payload.longitude || payload.lng}
             }
-        // case GET_IP_GEOCODE_FAIL :
-        //     return {...state, geocoords : {}, weather : {} }
-
         case GET_WEATHER_PASS :
             return {...state, weather }
 
-        // case GET_WEATHER_FAIL :
-        //     return {...state, error : true} //how to reset error flag?
         default :
             return state
     }

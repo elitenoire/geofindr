@@ -2,7 +2,7 @@ import { GET_WEATHER, GET_WEATHER_PASS, GET_WEATHER_FAIL } from '../constants';
 
 const INITIAL_STATE = { overlayActive : false};
 
-//ask ebuka if this is mutating state via state.push()
+
 export default (state = INITIAL_STATE, { type }) => {
     switch(type){
         case GET_WEATHER :

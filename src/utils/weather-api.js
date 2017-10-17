@@ -17,8 +17,8 @@ const ipGeocoder = () => {
 
 const currentWeather = (objQuery) => {
     const query = parser(objQuery)
-    console.log('Sending query...', query)
-    console.log(qs.stringify(query,true))
+    // console.log('Sending query...', query)
+    // console.log(qs.stringify(query,true))
     return client.get('/weather' + qs.stringify(query,true)) //promise
 }
 const forecastWeather = (objQuery) => {

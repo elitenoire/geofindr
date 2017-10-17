@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Overlay from './Overlay';
 
 const Weather = ({children, isActive}) => {
-
     return (
         <Overlay
             color={'#000'} // default is white
